@@ -7,6 +7,13 @@
     Ale trzeba utworzyć jeszcze obsługę tego
 -->
 <?php
+require_once 'start.php';
+
+if(isset($_SESSION['zalogowany'])){
+    exit(header('Location: stronaglowna.php'));
+}
+?>
+<?php
     // $correct_register;
     //oznaczenie błędu rejestracji
     function set_false(){
@@ -108,9 +115,6 @@
     }
 ?>
 <html>
-<?php
-require_once 'start.php';
-?>
 
 <body>
     <?php

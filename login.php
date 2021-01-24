@@ -1,4 +1,10 @@
 <?php
+require_once 'start.php';
+if(isset($_SESSION['zalogowany'])){
+    exit(header('Location: stronaglowna.php'));
+}
+?>
+<?php
 
     //Sprawdzenie czy istnieje jakiś null w tablicy
     function is_array_empty($arr){
@@ -34,22 +40,31 @@ if((!is_array_empty($_POST) && (count($_POST) != 0))){
     if(($login1 == $login2) && ($password1 == $password2)){
         require_once "dbConfig.php";
 
-        if($try_login = @$db->query(sprintf("SELECT * FROM users WHERE login='%s' AND password='%s'",
-        mysqli_real_escape_string($db, $login),
-        mysqli_real_escape_string($db, $haslo))));
-        $_SESSION['test'] = $try_login;
-        $users_count = $try_login->num_rows;
-        if($users_count > 0){
-            $_SESSION['zalogowany'] = true;
-            $_SESSION['test'] = "zalogowano";
-           
-            
+        // if($try_login = @$db->query(sprintf("SELECT * FROM users WHERE login='%s' AND password='%s'",
+        // mysqli_real_escape_string($db, $login),
+        // mysqli_real_escape_string($db, $password1))));
+        if($try_login = $db->prepare("SELECT * FROM users WHERE login = ? AND password = ?")){
+            $try_login->bind_param('ss', $login1, $password1);
+            $try_login->execute();
+            $result = $try_login->get_result();
+            // $_SESSION['test'] = $result;
+            $users_count = $result->num_rows;
+            if($users_count > 0){
+                while($row = $result->fetch_assoc()){
+                    $_SESSION['user_name'] = $row['name'];
+                    $_SESSION['user_surname'] = $row['surname'];
+                }
+                
+                // $_SESSION['test'] = "zalogowano";   
+                $_SESSION['zalogowany'] = true;
+                header('Location: stronaglowna.php');
+            }
+            else{
+                $_SESSION['e_login_info'] = '<span style="color:red;">Błędne dane logowania</span>';
+            }         
         }
-
-    }
-    
+    }  
 }
-
 elseif(count($_POST) == 2){
     $_SESSION['e_login_info'] = '<span style="color:red;">Wypełnij wszystkie pola</span>';
 
@@ -58,10 +73,6 @@ elseif(count($_POST) == 2){
 ?>
 
 <html>
-<?php
-require_once 'start.php';
-
-?>
 
 <body>
     <?php
@@ -74,19 +85,27 @@ require_once 'start.php';
             <form method="POST" action="login.php">
                 <h1>
                     <?php
-                        var_dump($_SESSION['test']);
-                        unset($_SESSION['test']);
+                    // mysqli_info($_SESSION['test']);
+                        // var_dump($_SESSION['test']);
+                        // unset($_SESSION['test']);
                     if(isset($_SESSION['zalogowany'])){
-                        var_dump($try_login);
-
+                        // var_dump($try_login);
+                        // echo 123;  
+                        // echo $_SESSION['user_name'];
+                        // echo $_SESSION['user_surname']; 
                         
                     }
+                    // var_dump($_SESSION['zalogowany']);
                     // //Jeśli zakończono pozytywnie rejestracje
                     // if(isset($_SESSION['correct_register'])){
                     //     echo 'Zarejestrowano!';
                     //     unset($_SESSION['correct_register']);
                     // }
-                    // ?>
+                    if(isset($_SESSION['e_login_info'])){
+                        echo $_SESSION['e_login_info'];
+                        unset($_SESSION['e_login_info']);
+                    }
+                    ?>
                 </h1>
 
                 <!-- Pole login -->

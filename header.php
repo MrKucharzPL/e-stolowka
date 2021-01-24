@@ -3,6 +3,19 @@
     <div id="mySidenav2" class="sidenav2">
         <!-- Use any element to open the sidenav -->
         <span onclick="openNav()"><img src="img/menu.png"></span>
+        <span style="margin:auto;">
+        <?php   
+        if(isset($_SESSION['zalogowany'])){
+            try{
+                echo 'Zalogowany: ' . $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; 
+            }
+            catch(Exception $exc){
+                echo 'Brak imienia/nazwiska w bazie';
+            }
+            echo '<a class="btn btn-primary" href="logout.php" role="button">Wyloguj się</a>';
+        }
+        ?>
+        </span>
     </div>
 
     <div id="mySidenav" class="sidenav">
