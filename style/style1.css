@@ -33,12 +33,29 @@
   -webkit-border-radius: 0 0 10px 10px;
   border-radius: 0 0 10px 10px;
 }
-
+#mySidenav img{
+  max-width: 50%;
+  max-height: 50%;
+}
+#admin_panel_nav{
+  padding: 30px;
+  position: sticky;
+  text-align: center;
+  margin: 0 100;
+}
+#dish_table td{
+  border: 1px solid blue;
+  padding: 2px;
+}
+#dish_table th{
+  border: 2px solid blue;
+  padding: 1px;
+}
 
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
+ abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
