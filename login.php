@@ -53,6 +53,7 @@ if((!is_array_empty($_POST) && (count($_POST) != 0))){
                 while($row = $result->fetch_assoc()){
                     $_SESSION['user_name'] = $row['name'];
                     $_SESSION['user_surname'] = $row['surname'];
+                    $_SESSION['user_permission'] = $row['permission'];
                 }
                 
                 // $_SESSION['test'] = "zalogowano";   

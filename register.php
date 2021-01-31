@@ -96,7 +96,7 @@ if(isset($_SESSION['zalogowany'])){
                 }
                 else{
                     //Dodawanie do bazy
-                    if($db->query("INSERT INTO users VALUES(NULL, '$login', '$password1', '$email', '$name', '$surname')")){
+                    if($db->query("INSERT INTO users VALUES(NULL, '$login', '$password1', '$email', '$name', '$surname', 0)")){
                         $_SESSION['correct_register'] = true;
                     }
                     //Błąd może wystąpić w przypadku istniejącego maila bądź loginu lub inny nieznany
